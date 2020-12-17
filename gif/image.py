@@ -48,5 +48,5 @@ class Image(wand.Image):
             x = randint(-amount, amount)
             y = randint(-amount, amount)
             with self.clone() as frame:
-                frame.distort("scale_rotate_translate", (x, y, 0))
+                frame.transform(f"100% {x:+g}{y:+g}")
                 self.sequence.append(frame)
