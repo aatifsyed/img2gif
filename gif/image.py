@@ -48,5 +48,5 @@ class Image(wand.Image):
             x = randint(-amount, amount)
             y = randint(-amount, amount)
             with self.clone() as frame:
-                frame.page = (frame.width, frame.height, -20, -20)
+                frame.distort("scale_rotate_translate", (x, y, 0))
                 self.sequence.append(frame)
