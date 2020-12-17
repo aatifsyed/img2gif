@@ -1,14 +1,13 @@
 from io import BytesIO
 import logging as logger
-from gif import __version__
+import gif
 from wand.image import Image
-from .utils import display
 
 
 def test_version():
-    assert __version__ == "0.1.0"
+    assert gif.__version__ == "0.1.0"
 
 
-def test_utils_display(png: BytesIO):
+def test_display(png: BytesIO):
     with Image(file=png) as img:
-        display(img)
+        gif.display(img)
