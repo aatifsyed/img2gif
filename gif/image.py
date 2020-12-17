@@ -28,3 +28,17 @@ class Image(wand.Image):
             self.save(file=fp)
             pillow: pil.Image = pil.open(fp)
             pillow.show(title=title)
+
+    def spin(self, angle: int, delay: int):
+        """Animate the image as a single spin
+
+        Args:
+            angle (int): The angle per frame (deg)
+            delay (int): The delay between frames (100ths of a second)
+        """
+        self.dispose = "previous"
+        self.delay = delay
+        for angle in range(0, 360 - angle, angle):
+            with self.clone() as frame:
+                frame.distort("scale_rotate_translate", (angle,))
+                self.sequence.append(frame)
