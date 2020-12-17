@@ -1,5 +1,8 @@
-from typing import Tuple
+from io import BytesIO
+from typing import Optional, Tuple
+
 import wand.image as wand
+from PIL import Image as pil
 
 
 class Image(wand.Image):
@@ -18,3 +21,10 @@ class Image(wand.Image):
         largest = max(width, height)
         factor = bound / largest
         return tuple(int(factor * dim) for dim in (width, height))
+
+    def display(self, title: Optional[str] = None):
+        """Use Pillow to display an image, since wand's `display` function doesn't always work"""
+        with BytesIO() as fp:
+            self.save(file=fp)
+            pillow: pil.Image = pil.open(fp)
+            pillow.show(title=title)

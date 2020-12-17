@@ -56,6 +56,6 @@ def test_too_short():
 @pytest.mark.visual
 def test_resize(png: BytesIO):
     with gif.Image(file=png) as img:
-        gif.display(img)
+        img.display()
         img.resize_to_bound(10)
-        gif.display(img)
+        img.display()
