@@ -1,5 +1,6 @@
 from io import BytesIO
 from typing import Optional, Tuple
+from random import randint
 
 import wand.image as wand
 from PIL import Image as pil
@@ -29,16 +30,23 @@ class Image(wand.Image):
             pillow: pil.Image = pil.open(fp)
             pillow.show(title=title)
 
-    def spin(self, angle: int, delay: int):
+    def spin(self, angle: int):
         """Animate the image as a single spin
 
         Args:
             angle (int): The angle per frame (deg)
-            delay (int): The delay between frames (100ths of a second)
         """
         self.dispose = "previous"
-        self.delay = delay
         for angle in range(0, 360 - angle, angle):
             with self.clone() as frame:
                 frame.distort("scale_rotate_translate", (angle,))
+                self.sequence.append(frame)
+
+    def shake(self, amount: int, frames: int):
+        self.dispose = "previous"
+        for _ in range(frames):
+            x = randint(-amount, amount)
+            y = randint(-amount, amount)
+            with self.clone() as frame:
+                frame.artifacts["distort:viewport"] = f"{x:+g}{y:+g}"
                 self.sequence.append(frame)
