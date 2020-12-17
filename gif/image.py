@@ -48,5 +48,5 @@ class Image(wand.Image):
             x = randint(-amount, amount)
             y = randint(-amount, amount)
             with self.clone() as frame:
-                frame.artifacts["distort:viewport"] = f"{x:+g}{y:+g}"
+                frame.page = (frame.width, frame.height, -20, -20)
                 self.sequence.append(frame)
